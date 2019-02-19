@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
+
+    protected $uploads = [
+        '/images/'
+    ];
+
+
+    protected $fillable = [
+        'file_path'
+        ];
     public function user()
     {
-        $this->hasOne(User::class, 'photo_id');
+        $this->hasMany(User::class, 'photo_id');
     }
 }

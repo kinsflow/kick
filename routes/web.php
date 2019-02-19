@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('admin/users', 'AdminUsersController');
+Route::post('admin/users/{user}', 'AdminUsersController@update');
+Route::post('admin/users/{user}', 'AdminUsersController@dropzone')->name('admin.dropzone');
+
+Route::get('admin/users/{user}/edit', 'AdminUsersController@edit')->name('admin.users.edit');
 
 Auth::routes();
 
