@@ -7,6 +7,8 @@ use App\Photo;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Nexmo\Client\Exception\Validation;
 
 class AdminUsersController extends Controller
 {
@@ -89,7 +91,7 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::pluck('name', 'id');
+        $roles = Role::all(['name', 'id']);
         return view('admin.users.edit' , compact('user', 'roles'));
 
     }
@@ -101,7 +103,7 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(userRequest $request, $id)
+    public function update($id, Request $request)
     {
         $user = User::findOrFail($id);
         $input = $request->all();
@@ -119,6 +121,7 @@ class AdminUsersController extends Controller
         if($user->update($input)){
             return redirect()->back();
         }
+        return 'not working';
 
 
     }
@@ -130,14 +133,26 @@ class AdminUsersController extends Controller
         $user = User::findOrFail($id);
         if($request->file)
         {
-            $file = $request->file('file');
-            $file_name = time() . $file->getClientOriginalName();
-            $file->move('images/'  , $file_name );
-            $upload = Photo::create(['file_path' => $file_name]);
-            $input = $upload->id;
-            $user->update([
-                'photo_id' => $input
+            $validation = $request->validate([
+                'file' => 'required|image|mimes:jpg,jpeg,gif,png|max:2048'
             ]);
+
+            if($validation)
+            {
+                $file = $request->file('file');
+                $file_name = time() . $file->getClientOriginalName();
+                $file->move('images/'  , $file_name );
+                $upload = Photo::create(['file_path' => $file_name]);
+                $input = $upload->id;
+                $user->update([
+                    'photo_id' => $input
+                ]);
+            }else
+            {
+                return 'not working';
+
+            }
+
         }
 
 
@@ -152,6 +167,10 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        unlink(public_path() . "/images/" . $user->photo->file_path);
+        $user->delete();
+        Session::flash('message', 'A user has been deleted');
+        return redirect('/admin/users');
     }
 }

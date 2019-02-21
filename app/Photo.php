@@ -19,4 +19,8 @@ class Photo extends Model
     {
         $this->hasMany(User::class, 'photo_id');
     }
+    public function post()
+    {
+        $this->belongsTo(Photo::class, 'photo_id');
+    }
 }

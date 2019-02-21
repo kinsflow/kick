@@ -1,5 +1,10 @@
 @extends('includes.navbar')
 @section('content')
+    <div>
+        @if(Session::has('message'))
+            <p class="alert alert-danger">{{session('message')}}</p>
+        @endif
+    </div>
 <div class="container">
 
     <div class="row">

@@ -16,11 +16,26 @@ use App\Http\Controllers\AdminUsersController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('admin/users', 'AdminUsersController');
-Route::post('admin/users/{user}', 'AdminUsersController@update');
-Route::post('admin/users/{user}', 'AdminUsersController@dropzone')->name('admin.dropzone');
 
+            //admin_users route
+Route::resource('admin/users', 'AdminUsersController');
+Route::post('admin/users/{user}', 'AdminUsersController@update')->name('admin.update');
+Route::post('admin/users/{user}/upload-image', 'AdminUsersController@dropzone')->name('admin.dropzone');
 Route::get('admin/users/{user}/edit', 'AdminUsersController@edit')->name('admin.users.edit');
+
+
+            //admin_posts route
+Route::resource('admin/posts', 'AdminPostsController');
+Route::post('admin/posts/{user}', 'AdminPostsController@update')->name('admin.dropzone');
+
+
+            //admin_categories route
+Route::resource('admin/categories', 'AdminCategoriesController');
+Route::post('admin/categories/{user}', 'AdminCategoriesController@update');
+Route::post('admin/categories/{user}/delete', 'AdminCategoriesController@destroy');
+
+
+
 
 Auth::routes();
 
