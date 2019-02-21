@@ -37,8 +37,12 @@
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">categories<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="{{route('categories.index')}}">All Categories</a></li>
-          <li><a href="{{route('categories.edit')}}">Edit categories</a></li>
-          <li><a href="#">Page 1-3</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Medias<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{route('medias.index')}}">All Medias</a></li>
+          <li><a href="{{route('medias.create')}}">Upload Medias</a></li>
         </ul>
       </li>
 

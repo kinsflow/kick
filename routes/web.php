@@ -35,6 +35,9 @@ Route::post('admin/categories/{user}', 'AdminCategoriesController@update');
 Route::post('admin/categories/{user}/delete', 'AdminCategoriesController@destroy');
 
 
+            //admin_medias route
+Route::resource('admin/medias', 'AdminMediasController');
+
 
 
 Auth::routes();
